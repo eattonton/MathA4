@@ -1,0 +1,17 @@
+.title{
+    text-align: center;
+    color: coral;
+}
+.board{
+    display: none;
+}
+.buttons .button{
+    display: block;
+    padding: 10px;
+    line-height: 45px;
+    font-size: 20px;
+    text-align: center;
+    border: 2px solid #000;
+    border-radius: 10px;
+    margin-top: 8px;
+}
