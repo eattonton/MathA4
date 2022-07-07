@@ -49,7 +49,8 @@ function CreateA4(category){
         }
     }
     
-    DownLoad();
+    //DownLoad();
+    ShowImageDlg();
 }
 //公式生成器
 function Formula(hardMin,hardMin2,hardMax,hardMax2,modeMin,modeMax) {
@@ -121,6 +122,19 @@ function RandomInt(min, max) {
     var span = max - min + 1;
     var result = Math.floor(Math.random() * span + min);
     return result;
+}
+
+//显示生成的题目图片，长按保存
+function ShowImageDlg(){
+    let strImg = "<img ";
+    strImg += "src="+ canvas.toDataURL('png', 1.0);
+    strImg += " style='width:350px;height:500px;'></img>";
+    let dlg1 = new Dialog({
+        title:"长按图片，保存下载",
+        text:strImg
+    });
+
+    dlg1.Show();
 }
 
 //下载

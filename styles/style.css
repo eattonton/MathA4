@@ -1,4 +1,8 @@
-.title{
+body{
+    max-width: 600px;
+}
+
+.title h2{
     text-align: center;
     color: coral;
 }
