@@ -11,11 +11,11 @@ body{
 }
 .buttons .button{
     display: block;
-    padding: 10px;
-    line-height: 45px;
+    padding: 5px;
+    line-height: 35px;
     font-size: 20px;
     text-align: center;
     border: 2px solid #000;
-    border-radius: 10px;
-    margin-top: 8px;
+    border-radius: 6px;
+    margin-top: 4px;
 }
