@@ -260,7 +260,7 @@ class Toast extends UIBase {
         this.divForm = $T.Create('div');
         //对话框
         $T.Attribute(this.divForm, "id", 'dlgForm');
-        $T.ClassN(this.divForm, 'form');
+        $T.ClassN(this.divForm, 'ttform');
         $T.Html(this.divForm, this.params['text']);
         this.divForm.style.height = "100px";
         this.divForm.style.width = "200px";
