@@ -43,7 +43,9 @@ function CreateA4(category){
         text:"生成中"
     });
     toastDlg.Show();
-    ctx.clearRect(0,0,boardWidth,boardHeight);
+    //ctx.clearRect(0,0,boardWidth,boardHeight);
+    ctx.fillStyle = "white";
+    ctx.fillRect(0,0,boardWidth,boardHeight);
     formulaMode1 = 1;
     formulaMode2 = 2;
     //1.title
