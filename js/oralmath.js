@@ -42,6 +42,8 @@ var grade = 1;
 function GoToUrl(category){
     if(category == 1){
         location.href = "https://24point.triweb.cn/index.html";
+    }else if(category == 2){
+        location.href = "https://matha4v.triweb.cn/index.html";
     }
 }
 
