@@ -38,6 +38,13 @@ var hardMin,hardMin2,hardMax,hardMax2;
 var formulaMode1,formulaMode2;
 var grade = 1;
 
+//跳转
+function GoToUrl(category){
+    if(category == 1){
+        location.href = "https://24point.triweb.cn/index.html";
+    }
+}
+
 function CreateA4(category){
     var toastDlg = new Toast({
         text:"生成中"
