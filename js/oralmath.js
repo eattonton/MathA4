@@ -37,7 +37,9 @@ var hardMin,hardMin2,hardMax,hardMax2;
 //公式的类型
 var formulaMode1,formulaMode2;
 var grade = 1;
-
+var m_bitNumber = 1;
+var m_blankNumber = 11;
+var m_columnNumber = 4;
 //跳转
 function GoToUrl(category){
     if(category == 1){
@@ -61,6 +63,9 @@ function CreateA4(category){
     WriteText("口  算", 9.0, 1.5, 1.0);
     //2.sub-title
     WriteTextsH(["班级________", "姓名________", "用时________", "得分________"], 2.5, 3.5, 0.5);
+    m_blankNumber = 11;
+    m_columnNumber = 4;
+    m_bitNumber = 1;
     //3.subjects
     if(category == 1){
         //100以内
@@ -90,6 +95,15 @@ function CreateA4(category){
         [hardMin,hardMin2,hardMax,hardMax2] = [1,1,100,100];
         formulaMode1 = 1;
         formulaMode2 = 3;
+        DrawFormula(Formula,rowTotal);
+    }else if(category == 9){
+        grade = 2;
+        //二年级(千内加减)
+        [hardMin,hardMin2,hardMax,hardMax2] = [1,1,99,99];
+        formulaMode1 = 1;
+        formulaMode2 = 2;
+        m_bitNumber = 100;
+        m_columnNumber = 3;
         DrawFormula(Formula,rowTotal);
     }else if(category == 7){
         grade = 3;
@@ -121,7 +135,12 @@ function DrawFormula(cb,num, startY){
     if (typeof cb == "function") {
         for (let i = 0; i < num; i++) {
             rowY = startY + i * 0.95;
-            WriteTextsH([cb(), cb(), cb(), cb()], 1.5, rowY, 0.5);
+            if(m_columnNumber == 4){
+                WriteTextsH([cb(), cb(), cb(), cb()], 1.5, rowY, 0.5);
+            }else if(m_columnNumber == 3){
+                WriteTextsH([cb(), cb(), cb()], 1.5, rowY, 0.5);
+            }
+            
         }
     }
     return rowY;
@@ -183,7 +202,7 @@ function Formula3() {
 function FormulaAdd() {
     arg1 = RandomInt(hardMin, hardMax);
     arg2 = RandomInt(hardMin2, hardMax2);
-    return arg1 + "  +  " + arg2 + " =";
+    return arg1*m_bitNumber + "  +  " + arg2*m_bitNumber + " =";
 }
 
 //进位
@@ -219,8 +238,8 @@ function FormulaAdd3() {
 
 //减法
 function FormulaMinus() {
-    arg1 = RandomInt(hardMin, hardMax);
-    arg2 = RandomInt(hardMin2, hardMax2);
+    arg1 = RandomInt(hardMin, hardMax)*m_bitNumber;
+    arg2 = RandomInt(hardMin2, hardMax2)*m_bitNumber;
     if (arg2 > arg1) {
         [arg1, arg2] = [arg2, arg1];
     }
@@ -301,8 +320,8 @@ function FormulaDivid() {
 //把输入和空白的进行组合
 function MergeBlank(inputStr, strLen) {
     strLen = strLen || inputStr.length;
-    if (strLen < 11) {
-        strLen = 11;
+    if (strLen < m_blankNumber) {
+        strLen = m_blankNumber;
     }
     let str2 = "";
     for (let i = 0, len = strLen; i < len; i++) {
