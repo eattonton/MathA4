@@ -46,6 +46,8 @@ function GoToUrl(category){
         location.href = "https://24point.triweb.cn/index.html";
     }else if(category == 2){
         location.href = "https://matha4v.triweb.cn/index.html";
+    }else if(category == 3){
+        location.href = "https://matchstick.triweb.cn/index.html";
     }
 }
 
