@@ -121,6 +121,13 @@ function CreateA4(category){
         formulaMode1 = 3;
         formulaMode2 = 3;
         DrawFormula(Formula,rowTotal);
+    }else if(category == 10){
+        grade = 3;
+        //三年级(混合)
+        [hardMin,hardMin2,hardMax,hardMax2] = [10,1,999,100];
+        formulaMode1 = 1;
+        formulaMode2 = 3;
+        DrawFormula(Formula,rowTotal);
     }
     
     //DownLoad();
@@ -160,6 +167,8 @@ function Formula() {
     } else if (quest_mode1 == 3) {
         if(grade <= 2){
             str1 = FormulaCross2();  //基本乘法表
+        }else if(grade == 3){
+            str1 = FormulaCross4();  //1位到2位的乘法
         }else{
             str1 = FormulaCross();
         }
@@ -309,6 +318,13 @@ function FormulaCross3() {
         return arg1 + "  X  " + arg2 + " =";
     }
     return arg2 + "  X  " + arg1 + " =";
+}
+
+//基本乘法表
+function FormulaCross4() {
+    arg1 = RandomInt(1, 99);
+    arg2 = RandomInt(1, 99);
+    return arg1 + "  X  " + arg2 + " =";
 }
 
 //除号
