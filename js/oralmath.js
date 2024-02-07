@@ -128,6 +128,13 @@ function CreateA4(category){
         formulaMode1 = 1;
         formulaMode2 = 3;
         DrawFormula(Formula,rowTotal);
+    }else if(category == 11){
+        grade  =3;
+        //三年级(一位除数)
+        [hardMin,hardMin2,hardMax,hardMax2] = [100,2,999,10];
+        formulaMode1 = 4;
+        formulaMode2 = 4;
+        DrawFormula(Formula,rowTotal);
     }
     
     //DownLoad();
@@ -172,7 +179,9 @@ function Formula() {
         }else{
             str1 = FormulaCross();
         }
-    } 
+    } else if (quest_mode1 == 4){
+        str1 = FormulaDivid2();
+    }
     //空格补齐
     str1 = MergeBlank(str1);
     return str1;
@@ -333,6 +342,13 @@ function FormulaDivid() {
     arg2 = RandomInt(hardMin2, hardMax2);
     let res = arg1 * arg2;
     return res + "  ÷  " + arg2 + " =";
+}
+
+//除号 带余数
+function FormulaDivid2(){
+    arg1 = RandomInt(hardMin, hardMax);
+    arg2 = RandomInt(hardMin2, hardMax2);
+    return arg1 + "  ÷  " + arg2 + " =";
 }
 
 //把输入和空白的进行组合
