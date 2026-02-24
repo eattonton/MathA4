@@ -16,7 +16,11 @@ function WriteTextsH(arr1, x, y, hei, scale) {
     let x2 = x;
     for (let i = 0; i < arr1.length; ++i) {
         x2 = x2 + tbWid;
-        WriteText(arr1[i], x2, y, hei, scale);
+        if(arr1[i].includes("//")){
+            DrawFraction(arr1[i], x2, y, hei, scale);
+        }else{
+            WriteText(arr1[i], x2, y, hei, scale);
+        }
         //计算宽度
         tbWid = arr1[i].length * hei * 0.8;
     }
@@ -29,6 +33,27 @@ function WriteText(str1, x, y, hei, scale) {
     ctx.font = "normal " + fontHei + " Arial";
     ctx.fillStyle = "#000000";
     ctx.fillText(str1, x * scale, y * scale);
+}
+
+//绘制分数
+function DrawFraction(str1, x, y, hei, scale){
+    scale = scale || 60;
+    let fontHei = hei * scale + "px";
+    ctx.font = "normal " + fontHei + " Arial";
+    ctx.fillStyle = "#000000";
+    //变成三行 支持负数的正则（如 -5//8、3//-9.2）
+    const regWithNegative = /(-?\d+(?:\.\d+)?)\s*\/\/\s*(-?\d+(?:\.\d+)?)/;
+    const match1 = str1.match(regWithNegative);
+    if (match1) {
+        let idx = str1.indexOf(match1[0]);
+        let strLen1 = Math.max(match1[1].length, match1[2].length);
+        let prefix = str1.slice(0, idx);
+        prefix = prefix.replace(/@/g, ' ');
+        ctx.fillText(" ".repeat(idx+strLen1+3)+match1[1], x * scale, y * scale - hei * scale);
+        ctx.fillText(prefix + "一".repeat(strLen1) + " = ", x * scale, y * scale);
+        ctx.fillText(" ".repeat(idx+strLen1+3)+match1[2], x * scale, y * scale + hei * scale);
+    }
+    
 }
 
 const rowTotal = 25;
@@ -129,12 +154,19 @@ function CreateA4(category){
         formulaMode2 = 3;
         DrawFormula(Formula,rowTotal);
     }else if(category == 11){
-        grade  =3;
+        grade = 3;
         //三年级(一位除数)
         [hardMin,hardMin2,hardMax,hardMax2] = [100,2,999,10];
         formulaMode1 = 4;
         formulaMode2 = 4;
         DrawFormula(Formula,rowTotal);
+    }else if(category == 12){
+        grade = 5;
+        //五年级(分数)
+        [hardMin,hardMin2,hardMax,hardMax2] = [10,2,99,10];
+        formulaMode1 = 4;
+        formulaMode2 = 4;
+        DrawFormula(FractionFormula,11, 5.0, 2.2);
     }
     
     //DownLoad();
@@ -145,16 +177,18 @@ function CreateA4(category){
     });
 }
 
-function DrawFormula(cb,num, startY){
+function DrawFormula(cb, num, startY,hei){
     startY = startY || 5.0;
+    hei = hei || 0.95;
     let rowY = startY;
+    let col  = m_columnNumber;
     if (typeof cb == "function") {
         for (let i = 0; i < num; i++) {
-            rowY = startY + i * 0.95;
-            if(m_columnNumber == 4){
-                WriteTextsH([cb(), cb(), cb(), cb()], 1.5, rowY, 0.5);
-            }else if(m_columnNumber == 3){
-                WriteTextsH([cb(), cb(), cb()], 1.5, rowY, 0.5);
+            rowY = startY + i * hei;
+            if(col == 4){
+                WriteTextsH([cb(i, col), cb(i, col), cb(i, col), cb(i, col)], 1.5, rowY, 0.5);
+            }else if(col == 3){
+                WriteTextsH([cb(i, col), cb(i, col), cb(i, col)], 1.5, rowY, 0.5);
             }
             
         }
@@ -349,6 +383,38 @@ function FormulaDivid2(){
     arg1 = RandomInt(hardMin, hardMax);
     arg2 = RandomInt(hardMin2, hardMax2);
     return arg1 + "  ÷  " + arg2 + " =";
+}
+
+//分数
+function FractionFormula(row, col){
+    if(row >=0 && row < 4){
+        return FormulaFractionAdd();
+    }else if(row >= 4 && row < 7){
+        return FormulaFractionMulti();
+    }else{
+        return FormulaFractionWith();
+    }
+}
+
+function FormulaFractionAdd(){
+    let arg1 = RandomInt(hardMin, hardMax);
+    let arg3 = RandomInt(hardMin2, hardMax2);
+    let arg2 = RandomInt(1, arg3);
+    return arg1 + " + " + arg2 + "//" + arg3 + " =";
+}
+
+function FormulaFractionMulti(){
+    let arg1 = RandomInt(hardMin, hardMax);
+    let arg3 = RandomInt(hardMin2, hardMax2);
+    let arg2 = RandomInt(1, arg3);
+    return arg1 + " X " + arg2 + "//" + arg3 + " =";
+}
+
+function FormulaFractionWith(){
+    let arg1 = RandomInt(hardMin, hardMax);
+    let arg3 = RandomInt(hardMin2, hardMax2);
+    let arg2 = RandomInt(1, arg3);
+    return arg1 + "@" + arg2 + "//" + arg3 + " =";
 }
 
 //把输入和空白的进行组合
